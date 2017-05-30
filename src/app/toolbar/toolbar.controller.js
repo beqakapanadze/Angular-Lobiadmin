@@ -9,7 +9,7 @@
     .controller('ToolbarController', ToolbarController);
 
   /** @ngInject */
-  function ToolbarController($state, Auth, $translate) {
+  function ToolbarController($state, $rootScope, $translate) {
     var vm = this;
 
     // Data
@@ -23,10 +23,11 @@
         'title': 'English',
         'code': 'en'
       },
-      de: {
-        'title': 'Deutsch',
-        'code': 'de'
-      },
+      // de: {
+      //   'title': 'Deutsch',
+      //   'code': 'de'
+      // },
+
       ka: {
         'title': 'ქართული',
         'code': 'ka'
@@ -63,7 +64,9 @@
     function changeLanguage(lang) {
       vm.selectedLanguage = lang;
       // Change the language
-      $translate.use(lang.code);
+      $translate.use(lang.code).then(function () {
+        $rootScope.$emit('App:languageChange', lang);
+      })
     }
   }
 })();
